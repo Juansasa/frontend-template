@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var config = require('./config')();
 var gulpSequence = require('gulp-sequence');
 var plugins = require('gulp-load-plugins')({
-    pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
+    pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
 gulp.task('partials', function() {
@@ -90,10 +90,7 @@ gulp.task('misc', function() {
 });
 
 gulp.task('clean', function() {
-    return gulp.src([config.dist, config.tmp])
-        .pipe(plugins.clean({
-            force: true
-        }));
+    return plugins.del([config.dist, config.tmp]);
 });
 
 gulp.task('build', gulpSequence('clean', ['images', 'misc', 'fonts'], 'html'));

@@ -1,3 +1,10 @@
 .home {
-	@extend .container-fluid;
+    @extend .container-fluid;
+}
+
+.empoyeeSearch {
+    @extend .col-md-4;
+    @extend .col-md-offset-4;
+
+    margin-top: 10em;
 }
