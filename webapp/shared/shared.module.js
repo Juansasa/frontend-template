@@ -18,7 +18,8 @@
 
         'exception',
         'router',
-        'forms'
+        'forms',
+        'data'
     ]).run(initStart);
 
     /*@ngInject*/
