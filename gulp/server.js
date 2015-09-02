@@ -55,7 +55,7 @@ gulp.task('serve', ['watch'], function() {
     browserSyncInit([
         config.serve,
         config.webapp
-    ], [config.serve + '/**/*.{js,html,css}']);
+    ], [config.serve + '/**']);
 });
 
 gulp.task('serve:dist',['build'], function() {
