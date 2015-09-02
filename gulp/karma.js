@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+var plugins = require('gulp-load-plugins')();
 var wiredep = require('wiredep');
 var config = require('./config')();
 
@@ -30,8 +30,8 @@ function runTests(singleRun, done) {
     }
 
     gulp.src(testFiles)
-        .pipe($.print())
-        .pipe($.karma({
+        .pipe(plugins.print())
+        .pipe(plugins.karma({
             configFile: config.karmaconfig.configfile,
             action: (singleRun) ? 'run' : 'watch'
         }, karmaCompleted));

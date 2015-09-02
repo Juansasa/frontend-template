@@ -10,17 +10,17 @@
 
 var gulp = require('gulp');
 var config = require('./config')();
-var $ = require('gulp-load-plugins')();
+var plugins = require('gulp-load-plugins')();
 
 gulp.task('extract-pot', function() {
     return gulp.src(config.translation.files)
-        .pipe($.angularGettext.extract('translation.pot', {}))
+        .pipe(plugins.angularGettext.extract('translation.pot', {}))
         .pipe(gulp.dest(config.translation.dir));
 });
 
 gulp.task('compile-po', function() {
     return gulp.src(config.translation.dir + '/*.pot')
-        .pipe($.angularGettext.compile({
+        .pipe(plugins.angularGettext.compile({
             module: config.translation.modulename
             // Do this if translation file is too big
                 // format: 'json'

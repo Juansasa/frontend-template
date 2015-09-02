@@ -3,18 +3,18 @@
 var gulp = require('gulp');
 var config = require('./config')();
 var gulpSequence = require('gulp-sequence');
-var $ = require('gulp-load-plugins')({
+var plugins = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license']
 });
 
 gulp.task('partials', function() {
     return gulp.src(config.templatecache.files)
-        .pipe($.minifyHtml({
+        .pipe(plugins.minifyHtml({
             empty: true,
             spare: true,
             quotes: true
         }))
-        .pipe($.angularTemplatecache('templateCacheHtml.js', {
+        .pipe(plugins.angularTemplatecache('templateCacheHtml.js', {
             module: config.templatecache.moduleName
         }))
         .pipe(gulp.dest(config.templatecache.dest));
@@ -30,43 +30,43 @@ gulp.task('html', ['inject', 'partials'], function() {
         addRootSlash: false
     };
 
-    var htmlFilter = $.filter('*.html', {
+    var htmlFilter = plugins.filter('*.html', {
         restore: true
     });
-    var jsFilter = $.filter('**/*.js', {
+    var jsFilter = plugins.filter('**/*.js', {
         restore: true
     });
-    var cssFilter = $.filter('**/*.css', {
+    var cssFilter = plugins.filter('**/*.css', {
         restore: true
     });
     var assets;
 
     return gulp.src(config.serve + '/*.html')
-        .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-        .pipe(assets = $.useref.assets())
-        .pipe($.rev())
+        .pipe(plugins.inject(partialsInjectFile, partialsInjectOptions))
+        .pipe(assets = plugins.useref.assets())
+        .pipe(plugins.rev())
         .pipe(jsFilter)
-        .pipe($.ngAnnotate())
-        .pipe($.uglify({
-            preserveComments: $.uglifySaveLicense
+        .pipe(plugins.ngAnnotate())
+        .pipe(plugins.uglify({
+            preserveComments: plugins.uglifySaveLicense
         }))
         .pipe(jsFilter.restore)
         .pipe(cssFilter)
-        .pipe($.replace('../bootstrap-sass-official/assets/fonts/bootstrap', 'fonts'))
-        .pipe($.csso())
+        .pipe(plugins.replace('../bootstrap-sass-official/assets/fonts/bootstrap', 'fonts'))
+        .pipe(plugins.csso())
         .pipe(cssFilter.restore)
         .pipe(assets.restore())
-        .pipe($.useref())
-        .pipe($.revReplace())
+        .pipe(plugins.useref())
+        .pipe(plugins.revReplace())
         .pipe(htmlFilter)
-        .pipe($.minifyHtml({
+        .pipe(plugins.minifyHtml({
             empty: true,
             spare: true,
             quotes: true
         }))
         .pipe(htmlFilter.restore)
         .pipe(gulp.dest(config.dist))
-        .pipe($.size({
+        .pipe(plugins.size({
             title: config.dist,
             showFiles: true
         }));
@@ -79,8 +79,8 @@ gulp.task('images', function() {
 
 gulp.task('fonts', function() {
     return gulp.src(config.fonts.files)
-        .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
-        .pipe($.flatten())
+        .pipe(plugins.filter('**/*.{eot,svg,ttf,woff}'))
+        .pipe(plugins.flatten())
         .pipe(gulp.dest(config.fonts.dest));
 });
 
@@ -91,7 +91,7 @@ gulp.task('misc', function() {
 
 gulp.task('clean', function() {
     return gulp.src([config.dist, config.tmp])
-        .pipe($.clean({
+        .pipe(plugins.clean({
             force: true
         }));
 });
